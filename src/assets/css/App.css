@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.availableChats {
+  max-height: calc(100vh - 3rem);
+}
