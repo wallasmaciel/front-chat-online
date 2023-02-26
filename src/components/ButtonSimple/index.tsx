@@ -2,7 +2,7 @@ import { ReactNode, ButtonHTMLAttributes } from "react"
 
 export function ButtonSimple(props: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <button { ...props } className={ `bg-transparent hover:bg-zinc-200 ${props.className}` } title="Button">
+    <button { ...props } className={ `hover:bg-slate-600 ${props.className}` }>
       { props.children }
     </button>
   )

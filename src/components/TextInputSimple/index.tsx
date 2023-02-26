@@ -1,8 +1,11 @@
 import { forwardRef, InputHTMLAttributes, Ref } from "react" 
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  classdiv?: string,
+}
 export const TextInputSimple = forwardRef<HTMLInputElement, InputProps>((props: InputProps, ref?: Ref<HTMLInputElement>) => (
-  <div className={ `w-full p-2 rounded-md bg-slate-400 ${props.className}` }>
-    <input { ...props } ref={ ref } type='text' className="w-full bg-transparent text-white placeholder:text-white/50 outline-none" />
+  <div className={ `w-full p-2 rounded-md bg-slate-600 border-slate-500 ${props.classdiv}` }>
+    <input { ...props } ref={ ref } 
+      className={`w-full bg-transparent px-1 outline-none ${props.className}` } />
   </div>
 ))

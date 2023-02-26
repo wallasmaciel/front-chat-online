@@ -1,48 +1,65 @@
-import { useRef, KeyboardEvent } from 'react'
+import { useRef, useCallback, KeyboardEvent } from 'react'
 import { Microphone, Paperclip, Smiley } from "phosphor-react"
 import { ButtonSimple } from "../../ButtonSimple"
 import { TextInputSimple } from "../../TextInputSimple"
 import { ChatAreaChildProps } from "../../../layouts/ChatArea"
+import { useAppSelector } from '../../../app/hooks'
+import request from '../../../configs/axios'
+import { User } from '../../../app/reducers/user.reducer'
 
-export function ChatAreaFooter({ chatConnect = false, stompClient }: ChatAreaChildProps) {
+interface ChatAreaFooterProps extends ChatAreaChildProps {
+  user_talk: User,
+}
+export function ChatAreaFooter({ user_talk }: ChatAreaFooterProps) {
+  const user = useAppSelector(state => state.userReducer.value)
   const inputMessage = useRef<HTMLInputElement>(null)
 
-  function sendMessage() {
+  const sendMessage = useCallback(() => {
     // Verify 'ref' is valid
     if (!inputMessage.current) return
     // Verify field is not empty
     if (inputMessage.current.value.trim() == '') return
-    if (!stompClient?.connected) {
+    if (!user) return
+    request.post('/chat/send', {
+      to: user.id,
+      from: user_talk.id,
+      content: inputMessage.current.value
+    }).then(resp => {
+      // message sent successfully
+      if (inputMessage.current) 
+        inputMessage.current.value = ''
+    }).catch((err: Error) => {
+      console.error('error in send message:', err.message)
+    })
+    /*if (!stompClient?.connected) {
       console.log('Connection with stomp is not open')
       return
     }
     stompClient.send('/app/send', JSON.stringify({
-      to: '9615fe65-cc43-4ab4-a332-8ad3b84be657',
-      from: '9615fe65-cc43-4ab4-a332-8ad3b84be657',
+      to: user.id,
+      from: user_talk,
       content: inputMessage.current.value
-    }))
-    // message sent successfully
-    inputMessage.current.value = ''
-  }
+    }))*/
+  }, [user, user_talk])
   function handleInputKeyUp(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key.trim().toLowerCase() == 'enter') sendMessage()
   }
   return (
-    <div className="flex justify-between bg-zinc-300 py-[.2rem] border-t-[.1rem] border-t-zinc-600/40">
-      <div className="flex items-center justify-center">
-        <ButtonSimple className="rounded-md p-4">
+    <div className="flex justify-between bg-slate-800 py-[.2rem] pb-2 border-t-[.1rem] border-t-zinc-600/40">
+      <div className="flex items-center justify-center px-1">
+        <ButtonSimple className="rounded-md p-4 text-slate-200">
           <Smiley size={ 18 } />
         </ButtonSimple>
-        <ButtonSimple className="rounded-md p-4">
+        <ButtonSimple className="rounded-md p-4 text-slate-200">
           <Paperclip size={ 18 } />
         </ButtonSimple>
       </div>
       <div className="flex-1 flex items-center justify-center">
-        <TextInputSimple ref={ inputMessage } className="bg-zinc-300 hover:bg-zinc-200" placeholder="Mensagem"
+        <TextInputSimple ref={ inputMessage } placeholder="Mensagem"
           onKeyUp={ handleInputKeyUp }/>
       </div>
-      <div className="flex items-center justify-center">
-        <ButtonSimple className="rounded-md p-4">
+      <div className="flex items-center px-1 justify-center">
+        <ButtonSimple className="rounded-md p-4 text-slate-200">
           <Microphone size={ 18 } />
         </ButtonSimple>
       </div>

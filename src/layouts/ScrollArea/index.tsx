@@ -6,7 +6,7 @@ interface ScrollAreaDefaultProps {
 }
 function ScrollAreaRoot({ children }: ScrollAreaDefaultProps) {
   return (
-    <ScrollAreaRadix.Root>
+    <ScrollAreaRadix.Root className='flex-1'>
       { children }
       <ScrollAreaRadix.Scrollbar orientation="horizontal">
         <ScrollAreaRadix.Thumb />

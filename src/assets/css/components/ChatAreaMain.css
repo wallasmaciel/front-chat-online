@@ -1,0 +1,4 @@
+.chat-view-messages {
+  padding-top: 1rem;
+  max-height: calc(100vh - 120px);
+}
