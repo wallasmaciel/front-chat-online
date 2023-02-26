@@ -5,11 +5,21 @@ import { ButtonSimple } from "../../ButtonSimple"
 import { SeparatorSimple } from "../../SeparatorSimple"
 import { User } from "../../../app/reducers/user.reducer"
 import { ChatAreaChildProps } from "../../../layouts/ChatArea"
+import { toast } from 'react-toastify'
 
 interface ChatAreaHeaderProps extends ChatAreaChildProps {
   user_talk: User,
 }
 export function ChatAreaHeader({ user_talk }: ChatAreaHeaderProps) {
+  function startCall() {
+    toast.warn("Function 'start call' not implements...", { autoClose: 3000 });
+  }
+  function videoRecording() {
+    toast.warn("Function 'video recording' not implements...", { autoClose: 3000 });
+  }
+  function searchMessage() {
+    toast.warn("Function 'search message' not implements...", { autoClose: 3000 });
+  }
   return (
     <div className="w-full h-16 flex flex-row justify-between items-center px-2 bg-slate-800 shadow-md">
       <div className="flex">
@@ -22,16 +32,19 @@ export function ChatAreaHeader({ user_talk }: ChatAreaHeaderProps) {
         </div>
       </div>
       <span className="flex justify-center items-center text-slate-200">
-        <ButtonSimple className="rounded-md p-4">
+        <ButtonSimple className="rounded-md p-4"
+          onClick={() => videoRecording()}>
           <VideoCamera size={ 18 } />
         </ButtonSimple>
-        <ButtonSimple className="rounded-md p-4">
+        <ButtonSimple className="rounded-md p-4"
+          onClick={() => startCall()}>
           <Phone size={ 18 } />
         </ButtonSimple>
         <span className="h-6">
           <SeparatorSimple orientation="vertical" className="w-full h-full mx-2 bg-slate-400" />
         </span>
-        <ButtonSimple className="rounded-md p-4">
+        <ButtonSimple className="rounded-md p-4"
+          onClick={() => searchMessage()}>
           <MagnifyingGlass size={ 18 } />
         </ButtonSimple>
       </span>

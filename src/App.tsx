@@ -15,10 +15,12 @@ function App() {
   const user = useAppSelector(state => state.userReducer.value)
   const dispatch = useAppDispatch()
 
+  const searchUser = useRef<HTMLInputElement>(null)
   const inputEmail = useRef<HTMLInputElement>(null)
   const inputPassword = useRef<HTMLInputElement>(null)
   const [openLoginModal, setOpenLoginModal] = useState<boolean>(true)
   const [othersUsers, setOthersUsers] = useState<User[]>([])
+  const [filterUser, setFilterUser] = useState<string | null>(null)
   const [userTalk, setUserTalk] = useState<User>()
 
   function handleInitChat(user_talk: User) {
@@ -26,7 +28,6 @@ function App() {
   }
 
   function loadOtherUsers() {
-    console.log('logando')
     request.get(`/chat/user/list/${user?.id}`)
       .then(resp => {
         // Clear others users before insert all
@@ -39,6 +40,10 @@ function App() {
       .catch((err: Error) => {
         console.error('error in list users to talk:', err.message)
       })
+  }
+
+  function handleSearchUser() {
+    setFilterUser((searchUser.current)? searchUser.current.value : null)
   }
 
   function handleLogin(e: FormEvent<HTMLFormElement>) {
@@ -71,15 +76,21 @@ function App() {
     <div className='flex w-screen max-h-screen'>
       <div className='flex-1 h-screen max-w-sm bg-slate-800 border-r-2 border-slate-700'>
         <div className='m-1 flex items-center'>
-          <TextInputSimple type='text' placeholder="Pesquisar uma conversa" 
-            classdiv='border-b-2 focus-within:border-slate-300'/>
+          <TextInputSimple type='text' placeholder="Pesquisar uma conversa" ref={ searchUser }
+            onChange={() => handleSearchUser() } classdiv='border-b-2 focus-within:border-slate-300'/>
           <ButtonSimple className='px-1 py-2 ml-1 rounded-md'
             title='Refresh chat' onClick={() => loadOtherUsers()}>
             <ArrowClockwise size={ 24 } className='text-slate-200 w-12'/>
           </ButtonSimple>
         </div>
         <ScrollArea className='h-full pb-4 availableChats'>
-          { othersUsers.map((value, index) => <UserTalk key={ index } user={ value } handleInitChat={ handleInitChat } />) }
+          {othersUsers.filter(value => {
+            return filterUser? 
+              // Apply filter in list of users
+              value.name.toLowerCase().indexOf(filterUser.trim().toLowerCase()) > -1 : 
+              // View all users without filter
+              true
+          }).map((value, index) => <UserTalk key={ index } user={ value } handleInitChat={ handleInitChat } />)}
         </ScrollArea>
       </div>
       <div className='flex-1 flex bg-slate-600'>
