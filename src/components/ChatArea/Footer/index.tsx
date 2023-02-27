@@ -68,7 +68,7 @@ export function ChatAreaFooter({ user_talk }: ChatAreaFooterProps) {
         </ButtonSimple>
       </div>
       <div className="flex-1 flex items-center justify-center">
-        <TextInputSimple ref={ inputMessage } placeholder="Mensagem"
+        <TextInputSimple ref={ inputMessage } placeholder="Mensagem" className='text-slate-200'
           onKeyUp={ handleInputKeyUp }/>
       </div>
       <div className="flex items-center px-1 justify-center">

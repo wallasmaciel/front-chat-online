@@ -24,7 +24,7 @@ export function ChatAreaHeader({ user_talk }: ChatAreaHeaderProps) {
     <div className="w-full h-16 flex flex-row justify-between items-center px-2 bg-slate-800 shadow-md">
       <div className="flex">
         <span className="w-11 h-11 ml-4">
-          <img src={ user_talk.url_picture }
+          <img src={ user_talk.url_picture ?? '/no-profile-picture.jpeg' }
             className="w-full h-full object-cover rounded-full" alt={ `user-image ${user_talk.name.split(' ')[0] ?? ''}` }/>
         </span>
         <div className="pt-1 pl-3">

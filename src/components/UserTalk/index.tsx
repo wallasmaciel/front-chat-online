@@ -14,7 +14,7 @@ export function UserTalk({ user, handleInitChat }: UserTalkProps) {
     <div className="flex p-3 cursor-pointer hover:bg-slate-700"
       onClick={ () => handleInitChat(user) }>
       <span className="w-16 h-16 max-w-16 max-h-16 ml-4">
-        <img src={ user.url_picture }
+        <img src={ user.url_picture ?? '/no-profile-picture.jpeg' }
           className="w-full h-full object-cover rounded-full" alt={ `user image ${user.name.split(' ')[0] ?? ''}` }/>
       </span>
       <div className="pt-1 pl-3">

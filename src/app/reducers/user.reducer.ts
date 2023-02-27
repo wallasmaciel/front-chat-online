@@ -4,7 +4,7 @@ export interface User {
   id: string, 
   name: string,
   email: string,
-  url_picture?: string,
+  url_picture?: string | null,
 }
 export const userSlice = createSlice({
   name: 'user',
