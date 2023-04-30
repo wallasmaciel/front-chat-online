@@ -12,3 +12,8 @@ export function addHours(date: Date, qtd: number) {
   date.setHours(date.getHours() + 2)
   return date
 }
+
+export function addDay(date: Date, qtd: number) {
+  date.setDate(date.getDate() + qtd)
+  return date
+}

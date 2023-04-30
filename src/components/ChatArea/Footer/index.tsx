@@ -24,7 +24,8 @@ export function ChatAreaFooter({ user_talk }: ChatAreaFooterProps) {
     request.post('/chat/send', {
       to: user.id,
       from: user_talk.id,
-      content: inputMessage.current.value
+      content: inputMessage.current.value,
+      type: 'text',
     }).then(resp => {
       // message sent successfully
       if (inputMessage.current) 

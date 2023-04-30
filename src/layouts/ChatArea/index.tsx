@@ -6,7 +6,7 @@ import webstomp from "webstomp-client"
 import { Client } from "webstomp-client"
 import { useAppSelector } from "../../app/hooks"
 import { User } from "../../app/reducers/user.reducer"
-import { useParams } from "react-router-dom"
+import { redirect, useNavigate, useParams } from "react-router-dom"
 import request from "../../configs/axios"
 
 export interface ChatAreaChildProps {
@@ -15,6 +15,7 @@ export interface ChatAreaChildProps {
 }
 export function ChatArea() {
   const {user_id} = useParams()
+  const navigation = useNavigate()
   const timeToRetryConnect: number = 10000
   const user = useAppSelector(state => state.userReducer.value)
   const [chatConnect, setChatConnect] = useState<boolean>(false)
@@ -22,6 +23,11 @@ export function ChatArea() {
   const [userTalk, setUserTalk] = useState<User | null>(null)
 
   function requestUserData() {
+    if (!user) {
+      navigation('/')
+      return
+    }
+    // 
     request.get(`/chat/user/${user_id}`)
       .then(response => {
         setUserTalk(response.data as User)

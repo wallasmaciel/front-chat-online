@@ -1,0 +1,39 @@
+.message-receiver::after {
+  display: block;
+  position: absolute;
+
+  width: 0;
+  height: 0;
+
+  top: 2px;
+  left: calc(100% - 14px);
+
+  border-top: .1px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left-width: 10px;
+  border-style: solid;
+
+  border-radius: 0px 6px 20px 0px;
+  
+  content: "";
+}
+
+.message-submit::before {
+  display: block;
+  position: absolute;
+
+  width: 0;
+  height: 0;
+
+  top: 2px;
+  left: 0px;
+
+  border-top: .1px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right-width: 14px;
+  border-style: solid;
+
+  border-radius: 6px 0px 0px 20px;
+  
+  content: "";
+}

@@ -18,15 +18,15 @@ const router = createBrowserRouter([
         element: <ChatArea />,
       },
       {
-        path: '*',
+        path: '',
         element: (
-          <>
+          <div className='flex-1 flex flex-col justify-center items-center'>
             <span className='pb-2'><img src='/vite.svg' alt='whatsapp-icon'/></span>
             <div className='text-center text-black'>
               <p>Chat-online for the Web</p>
               <p>Send and receive messages.</p>
             </div>
-          </>
+          </div>
         )
       }, 
     ]
