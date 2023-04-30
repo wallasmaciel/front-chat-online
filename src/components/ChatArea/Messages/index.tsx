@@ -13,7 +13,7 @@ export function ChatAreaMessages({ messages }: ChatAreaMessagesProps) {
     tempDate = formatToString(date, 'YYYY-MM-DD')
     return (displayChangeDate)? 
       <div className='text-center pb-2'>
-        <span className='text-slate-200 bg-slate-500 rounded-md px-2 py-1 text-sm'>
+        <span className='text-black bg-gray-100 rounded-md px-2 py-1 text-sm'>
           { formatToString(date, 'DD/MM/YYYY') }
         </span>
       </div> : undefined

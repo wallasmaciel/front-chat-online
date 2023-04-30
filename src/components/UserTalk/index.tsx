@@ -11,14 +11,14 @@ interface UserTalkProps {
 }
 export function UserTalk({ user, handleInitChat }: UserTalkProps) {
   return (
-    <div className="flex p-3 cursor-pointer hover:bg-slate-700"
+    <div className="flex p-3 cursor-pointer hover:bg-hover-select"
       onClick={ () => handleInitChat(user) }>
-      <span className="w-16 h-16 max-w-16 max-h-16 ml-4">
+      <span className="w-14 h-14 ml-4">
         <img src={ user.url_picture ?? '/no-profile-picture.jpeg' }
-          className="w-full h-full object-cover rounded-full" alt={ `user image ${user.name.split(' ')[0] ?? ''}` }/>
+          className="w-full h-full object-cover rounded-xl" alt={ `user image ${user.name.split(' ')[0] ?? ''}` }/>
       </span>
       <div className="pt-1 pl-3">
-        <label className="text-slate-200 font-bold">{ user.name }</label>
+        <label className="text-black font-bold">{ user.name }</label>
         <p>
           { 
           // user.lastMessage 

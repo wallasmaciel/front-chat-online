@@ -49,17 +49,17 @@ export function SignModalIn({ handleTransition }: SignModalInProps) {
 
   return (
     <div className='text-center mx-auto w-[20rem]'>
-      <h2 className='mx-auto w-[80%] font-semibold p-2 border-b-2 border-black'>Sign in and start chatting</h2>
+      <h2 className='mx-auto w-[80%] font-bold p-2 border-b-2 border-black'>Sign in and start chatting</h2>
       <form onSubmit={ handleSignIn } className='mt-2 flex flex-col justify-center'>
-        <TextInputSimple type='text' placeholder="Email" name='signin-email-chat-online'
-          ref={ signInEmail } classdiv='ring-1 bg-white mb-2' className='text-slate-600 placeholder:text-slate-300' />
+        <TextInputSimple type='email' placeholder="Email" name='signin-email-chat-online'
+          ref={ signInEmail } classdiv='mb-2' />
         <TextInputSimple type='password' placeholder="Password" name='signin-password-chat-online'
-          ref={ signInPassword } classdiv='ring-1 bg-white mb-2' className='text-slate-600 placeholder:text-slate-300' />
+          ref={ signInPassword } classdiv='mb-2' />
 
-        <ButtonSimple type='submit' className='w-full rounded-md font-bold text-slate-200 bg-slate-800 py-2'>Sign in</ButtonSimple>
+        <ButtonSimple type='submit' className='w-full rounded-md font-bold text-slate-200 py-2'>Sign in</ButtonSimple>
       </form>
       <div className='mt-2'>
-        <a className='underline cursor-pointer' onClick={ execHandleTransition }>sign on</a>
+        <a className='cursor-pointer' onClick={ execHandleTransition }>sign on</a>
       </div>
     </div>
   )

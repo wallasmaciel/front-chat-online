@@ -45,19 +45,19 @@ export function SignModalOn({ handleTransition }: SignModalOnProps) {
 
   return (
     <div className='text-center mx-auto w-[20rem]'>
-      <h2 className='mx-auto w-[80%] font-semibold p-2 border-b-2 border-black'>Sign on and start chatting</h2>
+      <h2 className='mx-auto w-[80%] font-bold p-2 border-b-2 border-black'>Sign on and start chatting</h2>
       <form onSubmit={ handleSignOn } className='mt-2 flex flex-col justify-center'>
       <TextInputSimple type='text' placeholder="Name" name='signon-name-chat-online'
-          ref={ signOnName } classdiv='ring-1 bg-white mb-2' className='text-slate-600 placeholder:text-slate-300' />
-        <TextInputSimple type='text' placeholder="Email" name='signon-email-chat-online'
-          ref={ signOnEmail } classdiv='ring-1 bg-white mb-2' className='text-slate-600 placeholder:text-slate-300' />
+          ref={ signOnName } classdiv='mb-2' />
+        <TextInputSimple type='email' placeholder="Email" name='signon-email-chat-online'
+          ref={ signOnEmail } classdiv='mb-2' />
         <TextInputSimple type='password' placeholder="Password" name='signon-password-chat-online'
-          ref={ signOnPassword } classdiv='ring-1 bg-white mb-2' className='text-slate-600 placeholder:text-slate-300' />
+          ref={ signOnPassword } classdiv='mb-2' />
 
-        <ButtonSimple type='submit' className='w-full rounded-md font-bold text-slate-200 bg-slate-800 py-2'>Sign on</ButtonSimple>
+        <ButtonSimple type='submit' className='w-full rounded-md font-bold py-2'>Sign on</ButtonSimple>
       </form>
       <div className='mt-2'>
-        <a className='underline cursor-pointer' onClick={ execHandleTransition }>{ 'return to sign in' }</a>
+        <a className='cursor-pointer' onClick={ execHandleTransition }>{ 'return to sign in' }</a>
       </div>
     </div>
   )

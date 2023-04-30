@@ -56,23 +56,22 @@ export function ChatAreaFooter({ user_talk }: ChatAreaFooterProps) {
     toast.warn("Function 'voice recording' not implements...", { autoClose: 3000 });
   }
   return (
-    <div className="flex justify-between bg-slate-800 py-[.2rem] pb-2 border-t-[.1rem] border-t-zinc-600/40">
+    <div className="flex justify-between bg-white py-[.2rem] pb-2 border-t-[1px] border-gray-300">
       <div className="flex items-center justify-center px-1">
-        <ButtonSimple className="rounded-md p-4 text-slate-200"
+        <ButtonSimple className="rounded-md p-4 text-accent-primary bg-transparent hover:bg-hover-select"
           onClick={() => sendSticker()}>
           <Smiley size={ 18 } />
         </ButtonSimple>
-        <ButtonSimple className="rounded-md p-4 text-slate-200"
+        <ButtonSimple className="rounded-md p-4 text-accent-primary bg-transparent hover:bg-hover-select"
           onClick={() => sendAttachment()}>
           <Paperclip size={ 18 } />
         </ButtonSimple>
       </div>
       <div className="flex-1 flex items-center justify-center">
-        <TextInputSimple ref={ inputMessage } placeholder="Mensagem" className='text-slate-200'
-          onKeyUp={ handleInputKeyUp }/>
+        <TextInputSimple ref={ inputMessage } placeholder="Mensagem" onKeyUp={ handleInputKeyUp }/>
       </div>
       <div className="flex items-center px-1 justify-center">
-        <ButtonSimple className="rounded-md p-4 text-slate-200"
+        <ButtonSimple className="rounded-md p-4 text-accent-primary bg-transparent hover:bg-hover-select"
           onClick={() => voiceRecording()}>
           <Microphone size={ 18 } />
         </ButtonSimple>

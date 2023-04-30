@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import cookieUtils from '../../utils/cookie..util'
+import { addHours } from '../../utils/date.util';
 
+const cookieNameSession = 'user-session';
 export interface User {
   id: string, 
   name: string,
@@ -9,11 +12,19 @@ export interface User {
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    value: undefined as User | undefined
+    value: cookieUtils.get<User>(cookieNameSession)
   },
   reducers: {
     login: (state, action: PayloadAction<User>) => {
-      state.value = action.payload
+      try {
+        cookieUtils.set(cookieNameSession, action.payload, {
+          path: '/',
+          expires: addHours(new Date(), 1),
+        })
+        state.value = action.payload
+      } catch (err) {
+        console.error('login error:', err)
+      }
     }
   }
 })
