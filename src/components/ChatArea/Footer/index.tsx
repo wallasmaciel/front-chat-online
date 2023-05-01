@@ -1,4 +1,4 @@
-import { useRef, useCallback, KeyboardEvent } from 'react'
+import { useRef, useCallback, KeyboardEvent, useEffect } from 'react'
 import { Microphone, Paperclip, Smiley } from "phosphor-react"
 import { ButtonSimple } from "../../ButtonSimple"
 import { TextInputSimple } from "../../TextInputSimple"
@@ -15,15 +15,16 @@ export function ChatAreaFooter({ user_talk }: ChatAreaFooterProps) {
   const user = useAppSelector(state => state.userReducer.value)
   const inputMessage = useRef<HTMLInputElement>(null)
 
-  const sendMessage = useCallback(() => {
+  const sendMessage = () => {
     // Verify 'ref' is valid
     if (!inputMessage.current) return
     // Verify field is not empty
     if (inputMessage.current.value.trim() == '') return
     if (!user) return
+
     request.post('/chat/send', {
-      to: user.id,
-      from: user_talk.id,
+      to: user_talk.id,
+      from: user.id,
       content: inputMessage.current.value,
       type: 'text',
     }).then(resp => {
@@ -33,16 +34,8 @@ export function ChatAreaFooter({ user_talk }: ChatAreaFooterProps) {
     }).catch((err: Error) => {
       console.error('error in send message:', err.message)
     })
-    /*if (!stompClient?.connected) {
-      console.log('Connection with stomp is not open')
-      return
-    }
-    stompClient.send('/app/send', JSON.stringify({
-      to: user.id,
-      from: user_talk,
-      content: inputMessage.current.value
-    }))*/
-  }, [user, user_talk])
+  }
+
   function handleInputKeyUp(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key.trim().toLowerCase() == 'enter') sendMessage()
   }

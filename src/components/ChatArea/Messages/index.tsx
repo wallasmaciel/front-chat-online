@@ -34,7 +34,7 @@ export function ChatAreaMessages({ messages }: ChatAreaMessagesProps) {
 
   return (
     <div className="w-full h-full">
-      { messages.map((message, key) => (
+      { messages.filter((value, index, self) => index === self.indexOf(value)).map((message, key) => (
           <div key={ key }>
             { changeDateTitle(message.date) }
             <MessageInline message={ message } />

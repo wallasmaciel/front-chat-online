@@ -25,7 +25,6 @@ export function SignModalOn({ handleTransition }: SignModalOnProps) {
       password: signOnPassword.current?.value,
     }).then(resp => {
       if (resp.status == 201) toast.success('User created successfully', { autoClose: 3000 })
-      console.log(resp)
       // Move to signin
       execHandleTransition()
     }).catch((err: any) => {

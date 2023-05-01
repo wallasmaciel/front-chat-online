@@ -22,23 +22,23 @@ export function ChatArea() {
   const [stompClient, setStompClient] = useState<Client>()
   const [userTalk, setUserTalk] = useState<User | null>(null)
 
-  function requestUserData() {
+  async function requestUserData() {
     if (!user) {
       navigation('/')
       return
     }
     // 
-    request.get(`/chat/user/${user_id}`)
-      .then(response => {
-        setUserTalk(response.data as User)
-      })
-      .catch(err => {
-        console.error('error in request user data.', err)
-      })
+    try {
+      const response = await request.get(`/chat/user/${user_id}`)
+      setUserTalk(response.data as User)
+    }catch(err){
+      console.error('error in request user data.', err)
+    }
   }
 
   function connectWebSocket() {
     if (!user) return
+    // 
     try {
       const connection = new WebSocket('ws://localhost:8080/gs-websocket')
       setStompClient(webstomp.over(connection))
@@ -50,6 +50,7 @@ export function ChatArea() {
   function listenerRoute() {
     if (!stompClient) return
     if (!user) return
+    // 
     stompClient?.connect({}, ()=>{
       stompClient.send('/app/listener', JSON.stringify({
         id: user.id, 
@@ -80,27 +81,22 @@ export function ChatArea() {
 
   useEffect(() => {
     listenerRoute()
-  }, [stompClient])
+  }, [stompClient, user_id])
 
   useEffect(() => {
     requestUserData()
-  }, [])
-
-  function contentChat() {
-    if (!userTalk) return <span className="flex-1 text-center">Invalid user</span>
-    return (
-      <>
-        <ChatAreaHeader chatConnect={ chatConnect } stompClient={ stompClient } user_talk={ userTalk } />
-        <ChatAreaMain chatConnect={ chatConnect } stompClient={ stompClient } user_talk={ userTalk } />
-        <ChatAreaFooter chatConnect={ chatConnect } stompClient={ stompClient } user_talk={ userTalk } />
-      </>
-    )
-  }
+  }, [user_id])
 
   return (
     <section className="flex-1 flex flex-col justify-center items-center">
       <div className="w-full max-w-full max-h-screen flex-1 flex flex-col justify-between">
-        { contentChat() }
+        { !userTalk? <span className="flex-1 text-center">Invalid user</span> : (
+          <>
+            <ChatAreaHeader chatConnect={ chatConnect } stompClient={ stompClient } user_talk={ userTalk } />
+            <ChatAreaMain chatConnect={ chatConnect } stompClient={ stompClient } user_talk={ userTalk } />
+            <ChatAreaFooter chatConnect={ chatConnect } stompClient={ stompClient } user_talk={ userTalk } />
+          </>
+        ) }
       </div>
     </section>
   )
