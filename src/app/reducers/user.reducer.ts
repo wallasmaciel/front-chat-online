@@ -25,9 +25,16 @@ export const userSlice = createSlice({
       } catch (err) {
         console.error('login error:', err)
       }
+    },
+    logout: (state) => {
+      cookieUtils.remove(cookieNameSession)
+      state.value = null
     }
   }
 })
 
-export const { login } = userSlice.actions
+export const { 
+  login, 
+  logout
+} = userSlice.actions
 export default userSlice.reducer

@@ -54,7 +54,7 @@ export function SignModalOn({ handleTransition }: SignModalOnProps) {
         <TextInputSimple type='password' placeholder="Password" name='signon-password-chat-online'
           ref={ signOnPassword } classdiv='mb-2' />
 
-        <ButtonSimple type='submit' className='w-full rounded-md font-bold py-2'>Sign on</ButtonSimple>
+        <ButtonSimple type='submit' className='w-full rounded-md font-bold text-white py-2'>Sign on</ButtonSimple>
       </form>
       <div className='mt-2'>
         <a className='cursor-pointer' onClick={ execHandleTransition }>{ 'return to sign in' }</a>

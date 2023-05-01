@@ -2,16 +2,17 @@ import { useState, useEffect, useRef, DragEventHandler, DragEvent } from 'react'
 import { UserTalk } from './components/UserTalk'
 import { TextInputSimple } from './components/TextInputSimple'
 import { ScrollArea } from './layouts/ScrollArea'
-import { useAppSelector } from './app/hooks'
-import { User } from './app/reducers/user.reducer'
+import { useAppDispatch, useAppSelector } from './app/hooks'
+import { User, logout } from './app/reducers/user.reducer'
 import request from './configs/axios'
-import { ArrowClockwise } from 'phosphor-react'
+import { ArrowClockwise, SignOut } from 'phosphor-react'
 import { ButtonSimple } from './components/ButtonSimple'
 import './assets/css/App.css'
 import { SignModal } from './layouts/SignModal'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 function App() {
+  const dispatch = useAppDispatch()
   const user = useAppSelector(state => state.userReducer.value)
   const navigate = useNavigate()
 
@@ -29,6 +30,11 @@ function App() {
   }
 
   function loadOtherUsers() {
+    if (!user) {
+      setOthersUsers([])
+      return
+    }
+    // 
     request.get(`/chat/user/list/${user?.id}`)
       .then(resp => {
         // Clear others users before insert all
@@ -43,11 +49,17 @@ function App() {
       })
   }
 
+  function handleLogout() {
+    dispatch(logout())
+    navigate('/')
+  }
+
   function handleSearchUser() {
     setFilterUser((searchUser.current)? searchUser.current.value : null)
   }
 
   function toggleOpenUserList() {
+    if (window.innerWidth > 640) return
     setUserListOpen(!userListOpen)
   }
 
@@ -56,6 +68,7 @@ function App() {
     y: 0,
   })
   function dragSideMenu(event: DragEvent<HTMLDivElement>) {
+    if (window.innerWidth > 640) return
     setUserListOpen(event.clientX > oldPositionSideMenu.x)
     //
     setOldPositionSideMenu({
@@ -71,13 +84,13 @@ function App() {
   useEffect(() => {
     window.addEventListener("resize", onLoadResize);
     // 
-    if (user) loadOtherUsers()
+    loadOtherUsers()
     setOpenLoginModal(user == undefined)
   }, [user])
   return (
     <div className='flex w-screen max-h-screen'>
       <div className={ `flex h-screen z-10 absolute ${userListOpen? 'w-screen' : 'max-w-sm -ml-[20rem]'} sm:relative sm:ml-0 sm:z-0 transition-all` }>
-        <div className='flex-1 w-80 max-w-sm bg-white border-r-[1px] border-gray-300'>
+        <div className='flex-1 flex flex-col w-80 max-w-sm bg-white border-r-[1px] border-gray-300'>
           <div className='m-1 flex items-center'>
             <TextInputSimple type='text' placeholder="Pesquisar uma conversa" ref={ searchUser }
               onChange={() => handleSearchUser() } />
@@ -86,7 +99,7 @@ function App() {
               <ArrowClockwise size={ 24 } className='text-white w-12'/>
             </ButtonSimple>
           </div>
-          <ScrollArea className='h-full pb-4 availableChats'>
+          <ScrollArea className='h-full pb-4 availableChats flex-1'>
             {othersUsers.filter(value => {
               return filterUser? 
                 // Apply filter in list of users
@@ -95,8 +108,14 @@ function App() {
                 true
             }).map((value, index) => <UserTalk key={ index } user={ value } handleInitChat={ handleInitChat } />)}
           </ScrollArea>
+          <div className='w-full flex justify-end'>
+            <ButtonSimple className='bg-transparent hover:bg-hover-select rounded-sm text-accent-primary p-2'
+              title='Logout' onClick={ handleLogout }>
+              <SignOut size={ 24 } />
+            </ButtonSimple>
+          </div>
         </div>
-        <div className={ `w-6 z-10 ${userListOpen? 'flex-1' : '' } bg-transparent` } draggable={ true }
+        <div className={ `w-6 z-10 ${userListOpen? 'flex-1' : '' } bg-transparent relative sm:absolute` } draggable={ true }
           onClick={ toggleOpenUserList } onDragEnd={ dragSideMenu }></div>
       </div>
       <div className='flex-1 h-screen flex bg-white'>
